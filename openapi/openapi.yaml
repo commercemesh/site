@@ -1,0 +1,692 @@
+openapi: 3.0.0
+info:
+  title: Commerce Mesh Protocol API
+  description: |
+    The Commerce Mesh Protocol (CMP) API enables discovery and interaction with products 
+    across all participating brands in the network. This API provides search, retrieval, 
+    and event capabilities for building commerce applications.
+  version: 1.0.0
+  contact:
+    name: CMP Support
+    email: specs@commercemesh.ai
+    url: https://commercemesh.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.commercemesh.com/v1
+    description: Production server
+
+tags:
+  - name: Discovery
+    description: Product discovery and search endpoints
+  - name: Products
+    description: Product retrieval and comparison
+  - name: Brands
+    description: Brand registry endpoints
+  - name: Events
+    description: Telemetry and analytics
+  - name: Webhooks
+    description: Webhook subscription management
+
+paths:
+  /products:
+    get:
+      tags:
+        - Discovery
+      summary: Search products
+      description: Search for products across all brands in the Commerce Mesh network
+      operationId: searchProducts
+      parameters:
+        - name: q
+          in: query
+          description: Search query
+          required: false
+          schema:
+            type: string
+            example: "laptop"
+        - name: org
+          in: query
+          description: Filter by organization ID (URN format)
+          required: false
+          schema:
+            type: string
+            example: "urn:cmp:orgid:123e4567-e89b-12d3-a456-426614174000"
+        - name: category
+          in: query
+          description: Filter by category
+          required: false
+          schema:
+            type: string
+            example: "Electronics"
+        - name: minPrice
+          in: query
+          description: Minimum price filter
+          required: false
+          schema:
+            type: number
+            format: float
+            example: 10.00
+        - name: maxPrice
+          in: query
+          description: Maximum price filter
+          required: false
+          schema:
+            type: number
+            format: float
+            example: 1000.00
+        - name: currency
+          in: query
+          description: Currency for price filters (ISO 4217)
+          required: false
+          schema:
+            type: string
+            default: "USD"
+            example: "USD"
+        - name: availability
+          in: query
+          description: Filter by availability
+          required: false
+          schema:
+            type: string
+            enum: [InStock, OutOfStock, PreOrder, BackOrder]
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          description: Results per page
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: sort
+          in: query
+          description: Sort field
+          required: false
+          schema:
+            type: string
+            enum: [relevance, price, name, date]
+            default: relevance
+        - name: order
+          in: query
+          description: Sort order
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: asc
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductSearchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+
+  /products/{skuUrn}:
+    get:
+      tags:
+        - Products
+      summary: Get product by SKU URN
+      description: Retrieve a specific product using its SKU URN
+      operationId: getProductBySku
+      parameters:
+        - name: skuUrn
+          in: path
+          required: true
+          description: SKU URN in format `urn:cmp:sku:{orgId}:{sku}`
+          schema:
+            type: string
+            example: "urn:cmp:sku:123e4567-e89b-12d3-a456-426614174000:9781683833897"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /products/compare:
+    post:
+      tags:
+        - Products
+      summary: Compare products
+      description: Compare multiple products side by side
+      operationId: compareProducts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompareRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompareResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /brands:
+    get:
+      tags:
+        - Brands
+      summary: List brands
+      description: Get all brands registered in the Commerce Mesh network
+      operationId: listBrands
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: Results per page
+          required: false
+          schema:
+            type: integer
+            default: 50
+            maximum: 100
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrandListResponse'
+
+  /events:
+    post:
+      tags:
+        - Events
+      summary: Send telemetry event
+      description: Send product interaction events for analytics
+      operationId: sendEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TelemetryEvent'
+      responses:
+        '202':
+          description: Event accepted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /webhooks:
+    post:
+      tags:
+        - Webhooks
+      summary: Register webhook
+      description: Register a webhook endpoint for real-time updates
+      operationId: registerWebhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRegistration'
+      responses:
+        '201':
+          description: Webhook registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+    get:
+      tags:
+        - Webhooks
+      summary: List webhooks
+      description: Get all registered webhooks
+      operationId: listWebhooks
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookListResponse'
+
+  /webhooks/{webhookId}:
+    delete:
+      tags:
+        - Webhooks
+      summary: Delete webhook
+      description: Remove a webhook registration
+      operationId: deleteWebhook
+      parameters:
+        - name: webhookId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Webhook deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        '@context':
+          type: string
+          example: "https://schema.org"
+        '@type':
+          type: string
+          example: "Product"
+        '@id':
+          type: string
+          format: uri
+          example: "https://example.com/products/SKU123"
+        sku:
+          type: string
+          example: "SKU123"
+        name:
+          type: string
+          example: "Professional Laptop"
+        description:
+          type: string
+          example: "High-performance laptop for professionals"
+        brand:
+          $ref: '#/components/schemas/Brand'
+        organization:
+          $ref: '#/components/schemas/Organization'
+        offers:
+          $ref: '#/components/schemas/Offer'
+        image:
+          type: array
+          items:
+            type: string
+            format: uri
+        category:
+          type: string
+          example: "Electronics > Computers > Laptops"
+        gtin:
+          type: string
+          example: "1234567890123"
+        additionalProperty:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyValue'
+
+    Brand:
+      type: object
+      properties:
+        '@type':
+          type: string
+          example: "Brand"
+        '@id':
+          type: string
+          format: uri
+        name:
+          type: string
+          example: "Example Brand"
+        logo:
+          type: string
+          format: uri
+
+    Organization:
+      type: object
+      properties:
+        '@type':
+          type: string
+          example: "Organization"
+        '@id':
+          type: string
+          format: uri
+        name:
+          type: string
+          example: "Example Organization"
+        url:
+          type: string
+          format: uri
+        identifier:
+          $ref: '#/components/schemas/Identifier'
+        'cmp:productFeed':
+          type: string
+          format: uri
+          example: "https://example.com/cmp/products/feed.json"
+
+    Identifier:
+      type: object
+      properties:
+        '@type':
+          type: string
+          example: "PropertyValue"
+        propertyID:
+          type: string
+          example: "cmp:orgId"
+        value:
+          type: string
+          example: "urn:cmp:orgid:123e4567-e89b-12d3-a456-426614174000"
+
+    Offer:
+      type: object
+      properties:
+        '@type':
+          type: string
+          example: "Offer"
+        price:
+          type: string
+          example: "299.99"
+        priceCurrency:
+          type: string
+          example: "USD"
+        availability:
+          type: string
+          format: uri
+          example: "https://schema.org/InStock"
+        url:
+          type: string
+          format: uri
+
+    PropertyValue:
+      type: object
+      properties:
+        '@type':
+          type: string
+          example: "PropertyValue"
+        name:
+          type: string
+          example: "Color"
+        value:
+          type: string
+          example: "Black"
+
+    ProductSearchResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        data:
+          type: object
+          properties:
+            products:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+            facets:
+              $ref: '#/components/schemas/SearchFacets'
+
+    ProductDetailResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        data:
+          $ref: '#/components/schemas/Product'
+
+    BrandListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        data:
+          type: object
+          properties:
+            brands:
+              type: array
+              items:
+                allOf:
+                  - $ref: '#/components/schemas/Organization'
+                  - type: object
+                    properties:
+                      brand:
+                        $ref: '#/components/schemas/Brand'
+                      productCount:
+                        type: integer
+                        example: 1234
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+
+    CompareRequest:
+      type: object
+      required:
+        - skuUrns
+      properties:
+        skuUrns:
+          type: array
+          items:
+            type: string
+          minItems: 2
+          maxItems: 10
+          example: ["urn:cmp:sku:brand-a:SKU1", "urn:cmp:sku:brand-b:SKU2"]
+        fields:
+          type: array
+          items:
+            type: string
+          example: ["name", "price", "features"]
+
+    CompareResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        data:
+          type: object
+          properties:
+            products:
+              type: array
+              items:
+                type: object
+            comparisonMatrix:
+              type: object
+
+    TelemetryEvent:
+      type: object
+      required:
+        - event
+        - timestamp
+      properties:
+        event:
+          type: string
+          enum: [product.viewed, product.addedToCart, product.purchased]
+        skuUrn:
+          type: string
+          example: "urn:cmp:sku:brand:SKU123"
+        timestamp:
+          type: string
+          format: date-time
+        metadata:
+          type: object
+
+    WebhookRegistration:
+      type: object
+      required:
+        - url
+        - events
+      properties:
+        url:
+          type: string
+          format: uri
+          example: "https://yourapp.com/webhooks/cmp"
+        events:
+          type: array
+          items:
+            type: string
+            enum: [product.created, product.updated, product.deleted, price.changed, inventory.changed]
+        secret:
+          type: string
+          description: Shared secret for HMAC signature verification
+
+    WebhookResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+        events:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    WebhookListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        data:
+          type: object
+          properties:
+            webhooks:
+              type: array
+              items:
+                $ref: '#/components/schemas/WebhookResponse'
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 20
+        total:
+          type: integer
+          example: 150
+        totalPages:
+          type: integer
+          example: 8
+
+    SearchFacets:
+      type: object
+      properties:
+        brands:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              count:
+                type: integer
+        categories:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              count:
+                type: integer
+        priceRanges:
+          type: array
+          items:
+            type: object
+            properties:
+              min:
+                type: number
+              max:
+                type: number
+              count:
+                type: integer
+
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "error"
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "INVALID_REQUEST"
+            message:
+              type: string
+              example: "Invalid search query"
+            details:
+              type: object
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    
+    RateLimited:
+      description: Too many requests
+      headers:
+        X-RateLimit-Limit:
+          description: Request limit per hour
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          description: Remaining requests
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          description: Time when limit resets
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Use your API key as the bearer token
+
+security:
+  - bearerAuth: []

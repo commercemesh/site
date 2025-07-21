@@ -1,0 +1,39 @@
+announcement:
+  label: Announcement
+  permalink: /announcement
+  description: Official announcements and updates
+
+api:
+  label: API
+  permalink: /api
+  description: API updates and documentation
+
+ecommerce:
+  label: E-commerce
+  permalink: /ecommerce
+  description: E-commerce industry insights
+
+infrastructure:
+  label: Infrastructure
+  permalink: /infrastructure
+  description: Infrastructure and architecture topics
+
+commercemesh:
+  label: CommerceMesh
+  permalink: /commercemesh
+  description: CommerceMesh protocol and platform updates
+
+protocol:
+  label: Protocol
+  permalink: /protocol
+  description: Protocol specifications and updates
+
+ai:
+  label: AI
+  permalink: /ai
+  description: AI and machine learning in commerce
+
+developers:
+  label: Developers
+  permalink: /developers
+  description: Developer guides and resources
