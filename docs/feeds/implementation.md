@@ -255,12 +255,28 @@ def validate_product(product):
 
 ### Step 6: Deploy Your Feed
 
+#### Recommended Feed Location
+
+Host your feed index at the standard well-known location:
+```
+https://yourdomain.com/.well-known/cmp/feed.json
+```
+
+This standardized path allows discovery nodes and AI agents to automatically find your product feed without additional configuration.
+
 #### Option 1: Static Hosting
 
 ```bash
-# Generate and upload to S3
+# Generate feed
 python generate_feed.py > feed.json
-aws s3 cp feed.json s3://yourbucket/cmp/products/feed.json \
+
+# Upload to well-known location (AWS S3 example)
+aws s3 cp feed.json s3://yourbucket/.well-known/cmp/feed.json \
+  --content-type application/json \
+  --cache-control "public, max-age=3600"
+
+# Upload shard files
+aws s3 cp feed-001.json s3://yourbucket/.well-known/cmp/feed-001.json \
   --content-type application/json \
   --cache-control "public, max-age=3600"
 ```
@@ -274,7 +290,7 @@ import json
 
 app = Flask(__name__)
 
-@app.route('/cmp/products/feed.json')
+@app.route('/.well-known/cmp/feed.json')
 def product_feed():
     products = fetch_products_from_db()
     generator = CMPFeedGenerator("example-brand", "https://example.com")
@@ -289,7 +305,7 @@ def product_feed():
     response.headers['Content-Type'] = 'application/json'
     return response
 
-@app.route('/cmp/products/feed-<int:shard>.json')
+@app.route('/.well-known/cmp/feed-<int:shard>.json')
 def sharded_feed(shard):
     # Implementation for sharded feeds
     pass

@@ -21,28 +21,28 @@ Each level in the hierarchy includes the parent's identifier, creating a clear o
 
 ### Organization URN
 
-Organizations are identified by their domain:
+Organizations are identified by a UUID generated from their domain:
 
 ```
-urn:cmp:org:{domain}
+urn:cmp:org:{org-uuid}
 ```
 
 Example:
 ```
-urn:cmp:org:acmecorp.com
+urn:cmp:org:123e4567-e89b-12d3-a456-426614174000
 ```
 
 ### Brand URN
 
-Brands are scoped to organizations and include the parent organization's URN:
+Brands are scoped to organizations and include the parent organization's UUID:
 
 ```
-urn:cmp:org:{domain}:brand:{brand-uuid}
+urn:cmp:org:{org-uuid}:brand:{brand-uuid}
 ```
 
 Example:
 ```
-urn:cmp:org:acmecorp.com:brand:550e8400-e29b-41d4-a716-446655440000
+urn:cmp:org:123e4567-e89b-12d3-a456-426614174000:brand:550e8400-e29b-41d4-a716-446655440000
 ```
 
 ### Product/SKU URN
@@ -50,12 +50,12 @@ urn:cmp:org:acmecorp.com:brand:550e8400-e29b-41d4-a716-446655440000
 Products are scoped to brands and include the full hierarchy:
 
 ```
-urn:cmp:org:{domain}:brand:{brand-uuid}:sku:{sku-uuid}
+urn:cmp:org:{org-uuid}:brand:{brand-uuid}:sku:{sku-uuid}
 ```
 
 Example:
 ```
-urn:cmp:org:acmecorp.com:brand:550e8400-e29b-41d4-a716-446655440000:sku:f47ac10b-58cc-4372-a567-0e02b2c3d479
+urn:cmp:org:123e4567-e89b-12d3-a456-426614174000:brand:550e8400-e29b-41d4-a716-446655440000:sku:f47ac10b-58cc-4372-a567-0e02b2c3d479
 ```
 
 ## UUID Generation
@@ -74,6 +74,11 @@ import uuid
 
 CMP_NAMESPACE = uuid.UUID('4c2d9653-e971-4093-8d5b-82da447c2e85')
 
+# Generate organization UUID from domain
+org_domain = "acmecorp.com"
+org_uuid = uuid.uuid5(CMP_NAMESPACE, org_domain)
+# Result: 123e4567-e89b-12d3-a456-426614174000
+
 # Generate brand UUID
 brand_name = "Acme Premium Products"
 brand_uuid = uuid.uuid5(CMP_NAMESPACE, brand_name)
@@ -90,6 +95,10 @@ sku_uuid = uuid.uuid5(CMP_NAMESPACE, sku_name)
 import { v5 as uuidv5 } from 'uuid';
 
 const CMP_NAMESPACE = '4c2d9653-e971-4093-8d5b-82da447c2e85';
+
+// Generate organization UUID from domain
+const orgDomain = "acmecorp.com";
+const orgUuid = uuidv5(orgDomain, CMP_NAMESPACE);
 
 // Generate brand UUID
 const brandName = "Acme Premium Products";
@@ -108,7 +117,7 @@ Here's how the hierarchy works in practice:
 ```json
 {
   "@type": "Organization",
-  "@id": "urn:cmp:org:acmecorp.com",
+  "@id": "urn:cmp:org:123e4567-e89b-12d3-a456-426614174000",
   "name": "Acme Corporation",
   "url": "https://acmecorp.com"
 }
@@ -118,11 +127,11 @@ Here's how the hierarchy works in practice:
 ```json
 {
   "@type": "Brand",
-  "@id": "urn:cmp:org:acmecorp.com:brand:550e8400-e29b-41d4-a716-446655440000",
+  "@id": "urn:cmp:org:123e4567-e89b-12d3-a456-426614174000:brand:550e8400-e29b-41d4-a716-446655440000",
   "name": "Acme Premium Products",
   "parentOrganization": {
     "@type": "Organization",
-    "@id": "urn:cmp:org:acmecorp.com"
+    "@id": "urn:cmp:org:123e4567-e89b-12d3-a456-426614174000"
   }
 }
 ```
@@ -131,17 +140,17 @@ Here's how the hierarchy works in practice:
 ```json
 {
   "@type": "Product",
-  "@id": "urn:cmp:org:acmecorp.com:brand:550e8400-e29b-41d4-a716-446655440000:sku:f47ac10b-58cc-4372-a567-0e02b2c3d479",
+  "@id": "urn:cmp:org:123e4567-e89b-12d3-a456-426614174000:brand:550e8400-e29b-41d4-a716-446655440000:sku:f47ac10b-58cc-4372-a567-0e02b2c3d479",
   "sku": "LAPTOP-PRO-15",
   "name": "Professional Laptop 15-inch",
   "brand": {
     "@type": "Brand",
-    "@id": "urn:cmp:org:acmecorp.com:brand:550e8400-e29b-41d4-a716-446655440000",
+    "@id": "urn:cmp:org:123e4567-e89b-12d3-a456-426614174000:brand:550e8400-e29b-41d4-a716-446655440000",
     "name": "Acme Premium Products"
   },
   "manufacturer": {
     "@type": "Organization",
-    "@id": "urn:cmp:org:acmecorp.com",
+    "@id": "urn:cmp:org:123e4567-e89b-12d3-a456-426614174000",
     "name": "Acme Corporation"
   }
 }

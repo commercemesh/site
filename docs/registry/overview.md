@@ -37,36 +37,45 @@ Based on the [official schema](https://github.com/commercemesh/commercemesh/blob
 
 ```json
 {
-  "@context": {
-    "schema": "https://schema.org/",
-    "cmp": "https://schema.commercemesh.ai/ns#"
-  },
-  "@type": "Organization",
-  "name": "Example Brand",
-  "url": "https://example.com",
-  "logo": "https://example.com/logo.png",
-  "description": "Brief description of the organization",
-  "cmp:brandId": "urn:cmp:org:example.com:brand:123e4567-e89b-12d3-a456-426614174000",
-  "cmp:productFeed": {
-    "@type": "DataFeed",
-    "url": "https://example.com/cmp/products/feed.json"
-  },
-  "cmp:category": ["electronics", "computers"],
-  "brand": {
-    "@type": "Brand",
-    "name": "Example Brand",
-    "logo": "https://example.com/brand-logo.png",
+    "@context": {
+      "schema": "https://schema.org",
+      "cmp": "https://schema.commercemesh.ai/ns#"
+    },
+    "@type": "Organization",
+    "name": "TechFlow Solutions",
+    "description": "TechFlow Solutions is a leading technology company specializing in software development and digital innovation.",
+    "url": "https://techflowsolutions.com",
+    "logo": "https://example.com/logos/techflow-logo.png",
+    "brand": {
+        "@type": "Brand",
+        "name": "TechFlow",
+        "logo": "https://example.com/logos/techflow-brand-logo.png",
+        "identifier": {
+            "@type": "PropertyValue",
+            "propertyID": "cmp:brandId",
+            "value": "urn:cmp:org:abc12345-e89b-12d3-a456-426614174000:brand:987fcdeb-51a2-43d1-b789-987654321000"
+        }
+    },
+    "sameAs": [
+      "https://www.instagram.com/techflowsolutions",
+      "https://www.facebook.com/TechFlowSolutions",
+      "https://www.linkedin.com/company/techflow-solutions"
+    ],
+    "cmp:category": [
+      "technology",
+      "software",
+      "digital-services"
+    ],
+    "cmp:productFeed": {
+      "@type": "DataFeed",
+      "url": "https://techflowsolutions.com/.well-known/cmp/feed.json"
+    },
     "identifier": {
-      "@type": "PropertyValue",
-      "propertyID": "cmp:brandId",
-      "value": "urn:cmp:org:example.com:brand:123e4567-e89b-12d3-a456-426614174000"
+        "@type": "PropertyValue",
+        "propertyID": "cmp:orgId",
+        "value": "urn:cmp:org:abc12345-e89b-12d3-a456-426614174000"
     }
-  },
-  "sameAs": [
-    "https://twitter.com/example",
-    "https://linkedin.com/company/example"
-  ]
-}
+  }
 ```
 
 ## Required Fields
@@ -101,9 +110,9 @@ According to the [brand registry schema](https://github.com/commercemesh/commerc
 CMP uses a hierarchical URN (Uniform Resource Name) format for unique identification. See [Identifiers & URN Hierarchy](/docs/architecture/identifiers) for complete documentation.
 
 Quick reference:
-- Organization: `urn:cmp:org:{domain}`
-- Brand: `urn:cmp:org:{domain}:brand:{uuid}`
-- Product: `urn:cmp:org:{domain}:brand:{uuid}:sku:{uuid}`
+- Organization: `urn:cmp:org:{org-uuid}`
+- Brand: `urn:cmp:org:{org-uuid}:brand:{brand-uuid}`
+- Product: `urn:cmp:org:{org-uuid}:brand:{brand-uuid}:sku:{sku-uuid}`
 
 All UUIDs are generated using UUID v5 with the CMP namespace: `4c2d9653-e971-4093-8d5b-82da447c2e85`
 
@@ -151,7 +160,7 @@ const electronicsbrands = registry.filter(org =>
 
 // Find by brand ID
 const brand = registry.find(org => 
-  org['cmp:brandId'] === 'urn:cmp:org:example.com:brand:123e4567-e89b-12d3-a456-426614174000'
+  org['cmp:brandId'] === 'urn:cmp:org:123e4567-e89b-12d3-a456-426614174000:brand:456e7890-e89b-12d3-a456-426614174000'
 );
 ```
 

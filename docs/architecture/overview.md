@@ -49,14 +49,15 @@ graph TB
         TS[Transaction Service]
         TR[Trust Service]
         FS[Fulfillment Service]
+          subgraph "Consumers"
+            MP[Marketplaces]
+            AI[AI Agents]
+            APP[Applications]
+            WEB[Websites]
+        end
     end
     
-    subgraph "Consumers"
-        MP[Marketplaces]
-        AI[AI Agents]
-        APP[Applications]
-        WEB[Websites]
-    end
+  
     
     B1 --> BR
     B2 --> BR

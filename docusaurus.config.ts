@@ -8,7 +8,7 @@ const config: Config = {
   title: 'Commerce Mesh Protocol',
   tagline: 'The Open Coordination Layer for AI-Native Commerce',
   favicon: 'img/favicon.ico',
-  themes: ['docusaurus-theme-redoc'],
+  themes: ['docusaurus-theme-redoc', '@docusaurus/theme-mermaid'],
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -166,6 +166,10 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
+
+  markdown: {
+    mermaid: true,
+  },
 };
 
 export default config;

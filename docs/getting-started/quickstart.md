@@ -35,32 +35,45 @@ Create your organization entry following the [brand registry schema](https://git
 
 ```json
 {
-  "@context": {
-    "schema": "https://schema.org/",
-    "cmp": "https://schema.commercemesh.ai/ns#"
-  },
-  "@type": "Organization",
-  "name": "Your Organization",
-  "url": "https://example.com",
-  "logo": "https://example.com/logo.png",
-  "description": "Brief description of your organization",
-  "cmp:brandId": "urn:cmp:brandid:YOUR-GENERATED-ID",
-  "cmp:productFeed": {
-    "@type": "DataFeed",
-    "url": "https://example.com/cmp/products/feed.json"
-  },
-  "cmp:category": ["electronics", "computers"],
-  "brand": {
-    "@type": "Brand",
-    "name": "Your Brand",
-    "logo": "https://example.com/brand-logo.png",
+    "@context": {
+      "schema": "https://schema.org",
+      "cmp": "https://schema.commercemesh.ai/ns#"
+    },
+    "@type": "Organization",
+    "name": "TechFlow Solutions",
+    "description": "TechFlow Solutions is a leading technology company specializing in software development and digital innovation.",
+    "url": "https://techflowsolutions.com",
+    "logo": "https://example.com/logos/techflow-logo.png",
+    "brand": {
+        "@type": "Brand",
+        "name": "TechFlow",
+        "logo": "https://example.com/logos/techflow-brand-logo.png",
+        "identifier": {
+            "@type": "PropertyValue",
+            "propertyID": "cmp:brandId",
+            "value": "urn:cmp:brand:987fcdeb-51a2-43d1-b789-987654321000"
+        }
+    },
+    "sameAs": [
+      "https://www.instagram.com/techflowsolutions",
+      "https://www.facebook.com/TechFlowSolutions",
+      "https://www.linkedin.com/company/techflow-solutions"
+    ],
+    "cmp:category": [
+      "technology",
+      "software",
+      "digital-services"
+    ],
+    "cmp:productFeed": {
+      "@type": "DataFeed",
+      "url": "https://techflowsolutions.com/.well-known/cmp/feed-index.json"
+    },
     "identifier": {
-      "@type": "PropertyValue",
-      "propertyID": "cmp:brandId",
-      "value": "urn:cmp:brandid:YOUR-GENERATED-ID"
+        "@type": "PropertyValue",
+        "propertyID": "cmp:orgId",
+        "value": "urn:cmp:orgid:987fcdeb-51a2-43d1-b789-987654321000"
     }
   }
-}
 ```
 
 ## Step 3: Create Your Product Feed
@@ -69,36 +82,229 @@ Create a product feed following the [product feed specification](https://github.
 
 ```json
 {
-  "@context": "https://schema.org",
-  "@type": "DataFeed",
-  "@id": "https://example.com/cmp/products/feed.json",
-  "name": "Your Brand Product Feed",
-  "dateModified": "2025-01-21T12:00:00Z",
-  "cmp:shardCount": 1,
-  "cmp:shardIndex": 0,
-  "dataFeedElement": [
+{
+  "@context": {
+    "schema": "https://schema.org",
+    "cmp": "https://schema.commercemesh.ai/ns#"
+  },
+  "@type": "ItemList",
+  "itemListElement": [
     {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "@id": "urn:cmp:product:YOUR-BRAND-ID:SKU123",
-      "sku": "SKU123",
-      "name": "Product Name",
-      "description": "Product description",
-      "category": "Electronics > Accessories",
-      "image": ["https://example.com/product-image.jpg"],
-      "brand": {
-        "@type": "Brand",
-        "name": "Your Brand"
-      },
-      "offers": {
-        "@type": "Offer",
-        "price": "29.99",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-        "inventoryLevel": {
-          "@type": "QuantitativeValue",
-          "value": 50
-        }
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "@id": "urn:cmp:sku:WH-1000XM5-BLACK",
+        "name": "Sony WH-1000XM5 Wireless Noise Canceling Headphones",
+        "sku": "WH-1000XM5-BLACK",
+        "description": "Industry-leading noise canceling with Dual Noise Sensor technology. Up to 30-hour battery life with quick charge.",
+        "image": "https://example.com/images/wh1000xm5-main.jpg",
+        "brand": {
+          "@type": "Brand",
+          "name": "Sony"
+        },
+        "category": "Electronics > Audio > Headphones",
+        "offers": {
+          "@type": "Offer",
+          "price": 399.99,
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "inventoryLevel": {
+            "@type": "QuantitativeValue",
+            "value": 25
+          },
+          "priceValidUntil": "2025-12-31T23:59:59Z",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 399.99,
+            "priceCurrency": "USD"
+          }
+        },
+        "additionalProperty": [
+          {
+            "@type": "PropertyValue",
+            "name": "Color",
+            "value": "Black"
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "Wireless Technology",
+            "value": "Bluetooth"
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "Battery Life",
+            "value": "30 hours"
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "Weight",
+            "value": "250g"
+          }
+        ],
+        "isVariantOf": {
+          "@type": "ProductGroup",
+          "@id": "urn:cmp:product:WH-1000XM5"
+        },
+         "image": [
+          {
+            "@type": "ImageObject",
+            "url": "https://example.com/images/wh1000xm5-main.jpg",
+            "caption": "Sony WH-1000XM5 headphones front view",
+            "name": "Main Product Image",
+            "width": 1200,
+            "height": 800,
+            "encodingFormat": "image/jpeg"
+          },
+          {
+            "@type": "ImageObject",
+            "url": "https://example.com/images/wh1000xm5-side.jpg",
+            "caption": "Sony WH-1000XM5 headphones side view",
+            "name": "Side View",
+            "width": 1200,
+            "height": 800,
+            "encodingFormat": "image/jpeg"
+          }
+        ]
+        "@cmp:media": [
+          {
+            "@type": "VideoObject",
+            "url": "https://example.com/videos/wh1000xm5-demo.mp4",
+            "name": "Product Demo Video",
+            "description": "Demonstration of noise canceling features",
+            "thumbnailUrl": "https://example.com/images/video-thumb.jpg",
+            "duration": "PT2M45S",
+            "encodingFormat": "video/mp4",
+            "uploadDate": "2025-06-01"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@context": "https://schema.org",
+        "@type": "ProductGroup",
+        "@id": "urn:cmp:product:IPHONE-15-PRO",
+        "name": "iPhone 15 Pro",
+        "description": "iPhone 15 Pro. Forged in titanium and featuring the groundbreaking A17 Pro chip, a customizable Action Button, and the most powerful iPhone camera system ever.",
+        "brand": {
+          "@type": "Brand",
+          "name": "Apple"
+        },
+        "category": "Electronics > Mobile Phones > Smartphones",
+        "productGroupID": "IPHONE-15-PRO",
+        "variesBy": [
+          "Color",
+          "Storage Capacity"
+        ],
+        "@cmp:media": [
+          {
+            "@type": "ImageObject",
+            "url": "https://example.com/images/iphone15pro-group.jpg",
+            "caption": "iPhone 15 Pro in all available colors",
+            "name": "Product Group Image",
+            "width": 1400,
+            "height": 900,
+            "encodingFormat": "image/jpeg"
+          },
+          {
+            "@type": "VideoObject",
+            "url": "https://example.com/videos/iphone15pro-features.mp4",
+            "name": "iPhone 15 Pro Features Overview",
+            "description": "Complete overview of iPhone 15 Pro features and capabilities",
+            "thumbnailUrl": "https://example.com/images/iphone-video-thumb.jpg",
+            "duration": "PT3M20S",
+            "encodingFormat": "video/mp4",
+            "width": 1920,
+            "height": 1080,
+            "uploadDate": "2025-05-15"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "@id": "urn:cmp:sku:IPHONE-15-PRO-128-NATURAL",
+        "name": "iPhone 15 Pro 128GB Natural Titanium",
+        "sku": "IPHONE-15-PRO-128-NATURAL",
+        "description": "iPhone 15 Pro with 128GB storage in Natural Titanium finish. Features A17 Pro chip and Pro camera system.",
+        "image": "https://example.com/images/iphone15pro-natural-main.jpg",
+        "brand": {
+          "@type": "Brand",
+          "name": "Apple"
+        },
+        "category": "Electronics > Mobile Phones > Smartphones",
+        "offers": {
+          "@type": "Offer",
+          "price": 999.00,
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "inventoryLevel": {
+            "@type": "QuantitativeValue",
+            "value": 15
+          },
+          "priceValidUntil": "2025-12-31T23:59:59Z"
+        },
+        "additionalProperty": [
+          {
+            "@type": "PropertyValue",
+            "name": "Color",
+            "value": "Natural Titanium"
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "Storage Capacity",
+            "value": "128GB"
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "Display Size",
+            "value": "6.1 inches"
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "Processor",
+            "value": "A17 Pro"
+          }
+        ],
+        "isVariantOf": {
+          "@type": "ProductGroup",
+          "@id": "urn:cmp:product:IPHONE-15-PRO"
+        },
+        "@cmp:media": [
+          {
+            "@type": "ImageObject",
+            "url": "https://example.com/images/iphone15pro-natural-front.jpg",
+            "caption": "iPhone 15 Pro Natural Titanium front view",
+            "name": "Front View",
+            "width": 1000,
+            "height": 1200,
+            "encodingFormat": "image/jpeg"
+          },
+          {
+            "@type": "ImageObject",
+            "url": "https://example.com/images/iphone15pro-natural-back.jpg",
+            "caption": "iPhone 15 Pro Natural Titanium back view",
+            "name": "Back View",
+            "width": 1000,
+            "height": 1200,
+            "encodingFormat": "image/jpeg"
+          },
+          {
+            "@type": "MediaObject",
+            "url": "https://example.com/media/iphone15pro-360view.html",
+            "name": "360° Interactive View",
+            "description": "Interactive 360-degree product view",
+            "encodingFormat": "text/html"
+          }
+        ]
       }
     }
   ]

@@ -16,9 +16,18 @@ CMP uses a two-tier feed architecture:
 1. **Feed Index** - A main `feed.json` file that references all shard files
 2. **Shard Files** - Individual product catalog files (e.g., `feed-001.json`, `feed-002.json`)
 
+### Recommended Hosting Location
+
+We strongly recommend hosting the feed index file at:
+```
+https://yourdomain.com/.well-known/cmp/feed.json
+```
+
+The `.well-known` URI path is a standard location for site-wide metadata, making it easy for discovery nodes and AI agents to find your product feed automatically.
+
 ## Feed Index Structure
 
-The main feed index (`feed.json`) provides metadata and references to all shard files:
+The main feed index (hosted at `/.well-known/cmp/feed.json`) provides metadata and references to all shard files:
 
 ```json
 {
@@ -26,15 +35,15 @@ The main feed index (`feed.json`) provides metadata and references to all shard 
   "@type": "ProductFeedIndex",
   "version": "0.1",
   "lastUpdated": "2025-01-21T12:00:00Z",
-  "orgid": "urn:cmp:org:example.com",
+  "orgid": "urn:cmp:org:123e4567-e89b-12d3-a456-426614174000",
   "totalShards": 2,
   "shards": [
     {
-      "url": "https://example.com/cmp/products/feed-001.json",
+      "url": "https://example.com/.well-known/cmp/feed-001.json",
       "lastUpdated": "2025-01-21T12:00:00Z"
     },
     {
-      "url": "https://example.com/cmp/products/feed-002.json",
+      "url": "https://example.com/.well-known/cmp/feed-002.json",
       "lastUpdated": "2025-01-21T12:00:00Z"
     }
   ]
@@ -242,7 +251,7 @@ def create_sharded_feed(products, output_dir):
                 json.dump(current_shard, f)
             
             shards.append({
-                "url": f"https://example.com/cmp/products/{filename}",
+                "url": f"https://example.com/.well-known/cmp/{filename}",
                 "lastUpdated": datetime.utcnow().isoformat() + "Z"
             })
             
@@ -262,7 +271,7 @@ def create_sharded_feed(products, output_dir):
             json.dump(current_shard, f)
         
         shards.append({
-            "url": f"https://example.com/cmp/products/{filename}",
+            "url": f"https://example.com/.well-known/cmp/{filename}",
             "lastUpdated": datetime.utcnow().isoformat() + "Z"
         })
     
@@ -272,7 +281,7 @@ def create_sharded_feed(products, output_dir):
         "@type": "ProductFeedIndex",
         "version": "0.1",
         "lastUpdated": datetime.utcnow().isoformat() + "Z",
-        "orgid": "urn:cmp:org:example.com",
+        "orgid": "urn:cmp:org:123e4567-e89b-12d3-a456-426614174000",
         "totalShards": len(shards),
         "shards": shards
     }
@@ -289,22 +298,22 @@ CMP uses a hierarchical URN structure for identifiers. See [Identifiers & URN Hi
 
 #### Organization URN
 ```
-urn:cmp:org:{domain}
+urn:cmp:org:{org-uuid}
 ```
 
 #### Brand URN (includes organization)
 ```
-urn:cmp:org:{domain}:brand:{brand-uuid}
+urn:cmp:org:{org-uuid}:brand:{brand-uuid}
 ```
 
 #### Product URN (includes full hierarchy)
 ```
-urn:cmp:org:{domain}:brand:{brand-uuid}:sku:{sku-uuid}
+urn:cmp:org:{org-uuid}:brand:{brand-uuid}:sku:{sku-uuid}
 ```
 
 #### ProductGroup URN
 ```
-urn:cmp:org:{domain}:brand:{brand-uuid}:productgroup:{group-uuid}
+urn:cmp:org:{org-uuid}:brand:{brand-uuid}:productgroup:{group-uuid}
 ```
 
 All UUIDs must be generated using UUID v5 with CMP namespace: `4c2d9653-e971-4093-8d5b-82da447c2e85`
@@ -335,11 +344,11 @@ All UUIDs must be generated using UUID v5 with CMP namespace: `4c2d9653-e971-409
   "@type": "ProductFeedIndex",
   "version": "0.1",
   "lastUpdated": "2025-01-21T12:00:00Z",
-  "orgid": "urn:cmp:org:example.com",
+  "orgid": "urn:cmp:org:123e4567-e89b-12d3-a456-426614174000",
   "totalShards": 1,
   "shards": [
     {
-      "url": "https://example.com/cmp/products/feed-001.json",
+      "url": "https://example.com/.well-known/cmp/feed-001.json",
       "lastUpdated": "2025-01-21T12:00:00Z"
     }
   ]
