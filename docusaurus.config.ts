@@ -75,7 +75,7 @@ const config: Config = {
       'docusaurus-plugin-redoc',
       {
         id: 'api',
-        spec: 'openapi/openapi.yaml',
+        spec: 'http://localhost:8000/openapi.yaml',
         route: '/api/',
       },
     ],
