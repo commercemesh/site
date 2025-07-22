@@ -145,24 +145,186 @@ Get detailed information about a specific product.
 3. Compare with similar products
 4. Provide comprehensive overview
 
-## Claude Desktop Integration
+## AI Assistant Integration
 
-To use the Discovery Node MCP server with Claude Desktop, add to your configuration:
+### Claude Desktop Integration
+
+To use the Discovery Node MCP server with Claude Desktop:
+
+1. **Locate your Claude Desktop configuration file:**
+   - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+   - Linux: `~/.config/Claude/claude_desktop_config.json`
+
+2. **Add the MCP server configuration:**
 
 ```json
 {
   "mcpServers": {
     "commerce-mesh": {
-      "command": "python",
-      "args": ["/path/to/discovery-node/run_mcp.py"],
-      "env": {
-        "DATABASE_URL": "postgresql://...",
-        "PINECONE_API_KEY": "..."
-      }
+      "url": "http://localhost:3001/sse"
     }
   }
 }
 ```
+
+For a remote server:
+```json
+{
+  "mcpServers": {
+    "commerce-mesh": {
+      "url": "https://your-discovery-node.com/sse"
+    }
+  }
+}
+```
+
+3. **Restart Claude Desktop** to apply the configuration.
+
+4. **Verify the integration** by asking Claude:
+   - "Can you search for products?"
+   - "What Commerce Mesh tools do you have available?"
+
+### ChatGPT Integration
+
+To use the Discovery Node MCP server with ChatGPT through Custom GPTs:
+
+1. **Create a Custom GPT** in ChatGPT:
+   - Go to "Explore" → "Create a GPT"
+   - Click on "Configure"
+
+2. **Set up the Custom GPT:**
+   - **Name**: Commerce Mesh Discovery
+   - **Description**: Search and discover products using the Commerce Mesh Protocol
+   - **Instructions**: 
+   ```
+   You are a product discovery assistant that helps users find products using the Commerce Mesh Protocol. 
+   You have access to product search, detailed product information, and category browsing capabilities.
+   Always provide helpful product recommendations based on user queries.
+   ```
+
+3. **Configure Actions:**
+   - Click on "Create new action"
+   - **Schema**: Use the OpenAPI specification from your Discovery Node:
+   ```yaml
+   openapi: 3.0.0
+   info:
+     title: Commerce Mesh Discovery API
+     version: 1.0.0
+   servers:
+     - url: https://your-discovery-node.com/api
+   paths:
+     /v1/search:
+       get:
+         summary: Search for products
+         parameters:
+           - name: q
+             in: query
+             required: true
+             schema:
+               type: string
+         responses:
+           200:
+             description: Search results
+     /v1/products/{urn}:
+       get:
+         summary: Get product details
+         parameters:
+           - name: urn
+             in: path
+             required: true
+             schema:
+               type: string
+         responses:
+           200:
+             description: Product details
+   ```
+
+4. **Authentication** (if required):
+   - API Key: Add your Discovery Node API key
+   - Or use OAuth 2.0 if configured
+
+5. **Test the integration** by asking:
+   - "Search for wireless headphones"
+   - "Show me details for product URN xyz"
+
+### Alternative: MCP Bridge for ChatGPT
+
+For a more native MCP experience with ChatGPT, you can use an MCP-to-OpenAPI bridge:
+
+1. **Run the MCP Bridge** (requires additional setup):
+   ```bash
+   # Install the bridge
+   npm install -g @anthropic/mcp-bridge
+   
+   # Run the bridge pointing to your MCP server
+   mcp-bridge --mcp-url http://localhost:3001 --port 8080
+   ```
+
+2. **Configure Custom GPT** to use the bridge URL:
+   ```
+   Server URL: http://localhost:8080/openapi
+   ```
+
+This provides automatic translation between MCP tools and OpenAPI endpoints.
+
+## Troubleshooting
+
+### Common Issues
+
+#### Claude Desktop
+
+**MCP server not connecting:**
+- Verify the MCP server is running and accessible at the configured URL
+- Test the SSE endpoint directly: `curl http://localhost:3001/sse`
+- Check that the URL includes the `/sse` path
+- Check Claude Desktop logs: `~/Library/Logs/Claude/` (macOS)
+
+**"No tools available" error:**
+- Restart Claude Desktop after configuration changes
+- Verify the MCP server is running: `curl http://localhost:3001/health`
+- Check that all required dependencies are installed in the Discovery Node
+
+#### ChatGPT
+
+**Actions not working:**
+- Ensure your Discovery Node API is publicly accessible (not localhost)
+- Check CORS settings in your Discovery Node configuration
+- Verify API authentication is properly configured
+- Test endpoints directly using curl or Postman first
+
+**Rate limiting issues:**
+- Configure appropriate rate limits in your Discovery Node
+- Consider implementing caching for frequent queries
+- Use CloudFlare or similar CDN for production deployments
+
+### Debugging Tips
+
+1. **Test MCP server locally:**
+   ```bash
+   # Check if MCP server is running
+   curl http://localhost:3001/health
+   
+   # Test the SSE endpoint
+   curl -N http://localhost:3001/sse
+   
+   # Test with MCP Inspector (Chrome/Edge)
+   # Open: http://localhost:3001/sse in browser
+   # Should see SSE events stream
+   ```
+
+2. **Enable debug logging:**
+   ```bash
+   # Set environment variable before running
+   export MCP_DEBUG=true
+   python run_mcp.py
+   ```
+
+3. **Check Discovery Node logs:**
+   ```bash
+   # View real-time logs
+   tail -f logs/discovery-node.log
+   ```
 
 ## Example Conversations
 
