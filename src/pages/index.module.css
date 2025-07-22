@@ -8,7 +8,13 @@
   text-align: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: white;
+  color: var(--ifm-font-color-base);
+}
+
+/* Dark mode hero styling */
+[data-theme='dark'] .heroBanner {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
   color: white;
 }
 
@@ -22,6 +28,10 @@
   font-size: 1.5rem;
   font-weight: 300;
   margin-bottom: 2rem;
+  opacity: 0.8;
+}
+
+[data-theme='dark'] .heroSubtitle {
   opacity: 0.9;
 }
 
@@ -34,6 +44,10 @@
 
 .heroDescription p {
   margin-bottom: 1rem;
+  opacity: 0.85;
+}
+
+[data-theme='dark'] .heroDescription p {
   opacity: 0.95;
 }
 
@@ -61,4 +75,53 @@
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+/* Light mode button styles */
+.outlineButton {
+  margin-left: 1rem;
+  color: var(--ifm-color-primary) !important;
+  border: 2px solid var(--ifm-color-primary) !important;
+  background-color: transparent !important;
+}
+
+.outlineButton:hover {
+  background-color: var(--ifm-color-primary) !important;
+  color: white !important;
+}
+
+/* Dark mode button styles */
+[data-theme='dark'] .outlineButton {
+  color: white !important;
+  border: 2px solid white !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme='dark'] .outlineButton:hover {
+  background-color: white !important;
+  color: #0a0a0a !important;
+}
+
+/* Primary button styling - Light mode */
+.heroBanner .buttons .button--primary {
+  background-color: var(--ifm-color-primary);
+  color: white;
+  border-color: var(--ifm-color-primary);
+}
+
+.heroBanner .buttons .button--primary:hover {
+  background-color: var(--ifm-color-primary-dark);
+  color: white;
+}
+
+/* Primary button styling - Dark mode */
+[data-theme='dark'] .heroBanner .buttons .button--primary {
+  background-color: var(--ifm-color-primary);
+  color: var(--ifm-font-color-base-inverse);
+  border-color: var(--ifm-color-primary);
+}
+
+[data-theme='dark'] .heroBanner .buttons .button--primary:hover {
+  background-color: var(--ifm-color-primary-light);
+  color: var(--ifm-font-color-base-inverse);
 }

@@ -15,7 +15,7 @@ function HomepageHeader() {
         <Heading as="h1" className={styles.heroTitle}>
           Commerce Mesh Protocol
         </Heading>
-        <p className={styles.heroSubtitle}>The Open Coordination Layer for AI-Native Commerce</p>
+        <p className={styles.heroSubtitle}>Open Protocol for Commerce Infrastructure</p>
         <div className={styles.heroDescription}>
           <p>
             Commerce is undergoing a fundamental transformation. As AI agents become the primary interface 
@@ -30,13 +30,12 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--primary button--lg"
-            to="https://github.com/commercemesh/commercemesh/wiki">
+            to="/docs/intro">
             Learn More →
           </Link>
           <Link
-            className="button button--outline button--primary button--lg"
-            style={{marginLeft: '1rem'}}
-            to="https://discord.gg/commercemesh">
+            className={clsx("button button--lg", styles.outlineButton)}
+            to="https://discord.com/channels/1381756773563633786">
             Join the Community
           </Link>
         </div>
