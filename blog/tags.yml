@@ -37,3 +37,18 @@ developers:
   label: Developers
   permalink: /developers
   description: Developer guides and resources
+
+decentralized:
+  label: Decentralized
+  permalink: /decentralized
+  description: Posts about decentralized commerce and protocols
+
+ai-commerce:
+  label: AI Commerce
+  permalink: /ai-commerce
+  description: Posts about AI agents and commerce automation
+
+open-source:
+  label: Open Source
+  permalink: /open-source
+  description: Posts about open source projects and contributions

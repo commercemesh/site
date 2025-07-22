@@ -14,6 +14,8 @@ What if commerce worked like the internet - open, interoperable, and owned by no
 
 The Commerce Mesh Protocol (CMP) represents a fundamental shift in how digital commerce operates. Instead of closed platforms extracting rent from every transaction, we envision an open protocol where AI agents, brands, and buyers interact directly through standardized interfaces. This technical white paper outlines our vision, architecture, and implementation path for the future of agentic commerce.
 
+<!-- truncate -->
+
 ## The Problem: Commerce's Walled Gardens
 
 Today's digital commerce operates within increasingly restrictive walled gardens. Amazon controls 40% of US e-commerce. Shopify powers millions of stores but locks them into proprietary systems. Every major marketplace has become a toll booth, extracting value while limiting innovation.
