@@ -1,0 +1,338 @@
+openapi: 3.1.0
+info:
+  title: Commerce Mesh Discovery Node
+  description: Discovery Node is a product discovery engine that uses AI to find products that match your search query.
+  version: 1.0.0
+servers:
+  - url: https://discovery.commercemesh.com
+    description: Production server
+  - url: http://localhost:8000
+    description: Local development server
+paths:
+  /api/v1/search:
+    get:
+      tags:
+        - search
+      summary: Search for products
+      description: Search for products using a natural language query. Returns a list of relevant products ranked by similarity score.
+      operationId: search_products_api_v1_search_get
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Search query (e.g., "wireless headphones", "laptop under $1000")
+          schema:
+            type: string
+            example: "wireless noise canceling headphones"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductSearchResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/products/{urn}:
+    get:
+      tags:
+        - products
+      summary: Get product details
+      description: Retrieve detailed information about a specific product or product group by URN.
+      operationId: get_product_api_v1_products__urn__get
+      parameters:
+        - name: urn
+          in: path
+          required: true
+          description: Product or ProductGroup URN
+          schema:
+            type: string
+            example: "urn:cmp:org:123e4567:brand:456e7890:sku:789e0123"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailResponse'
+        '404':
+          description: Product not found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /health:
+    get:
+      tags:
+        - system
+      summary: Health check
+      description: Check the health status of the Discovery Node
+      operationId: health_check_health_get
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+  /openapi.yaml:
+    get:
+      tags:
+        - system
+      summary: Get OpenAPI specification (YAML)
+      description: Returns the OpenAPI specification in YAML format
+      operationId: get_openapi_yaml_openapi_yaml_get
+      responses:
+        '200':
+          description: OpenAPI specification
+          content:
+            text/plain:
+              schema:
+                type: string
+  /openapi.json:
+    get:
+      tags:
+        - system
+      summary: Get OpenAPI specification (JSON)
+      description: Returns the OpenAPI specification in JSON format
+      operationId: get_openapi_json_openapi_json_get
+      responses:
+        '200':
+          description: OpenAPI specification
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  schemas:
+    ProductSearchResponse:
+      type: object
+      properties:
+        '@context':
+          type: string
+          example: "https://schema.org"
+        '@type':
+          type: string
+          example: "SearchResultsPage"
+        query:
+          type: string
+          example: "wireless headphones"
+        numberOfResults:
+          type: integer
+          example: 10
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    Product:
+      type: object
+      properties:
+        '@type':
+          type: string
+          example: "Product"
+        '@id':
+          type: string
+          example: "urn:cmp:org:123e4567:brand:456e7890:sku:789e0123"
+        name:
+          type: string
+          example: "Premium Wireless Headphones"
+        description:
+          type: string
+          example: "High-quality wireless headphones with active noise cancellation"
+        sku:
+          type: string
+          example: "WH-1000XM5"
+        brand:
+          $ref: '#/components/schemas/Brand'
+        offers:
+          $ref: '#/components/schemas/Offer'
+        category:
+          type: string
+          example: "Electronics > Audio > Headphones"
+        image:
+          type: string
+          format: uri
+          example: "https://example.com/images/wh-1000xm5.jpg"
+        aggregateRating:
+          $ref: '#/components/schemas/AggregateRating'
+    ProductDetailResponse:
+      type: object
+      properties:
+        '@context':
+          type: string
+          example: "https://schema.org"
+        '@type':
+          type: string
+          example: "ItemList"
+        itemListElement:
+          type: array
+          items:
+            type: object
+            properties:
+              '@type':
+                type: string
+                example: "ListItem"
+              position:
+                type: integer
+                example: 1
+              item:
+                oneOf:
+                  - $ref: '#/components/schemas/Product'
+                  - $ref: '#/components/schemas/ProductGroup'
+    ProductGroup:
+      type: object
+      properties:
+        '@type':
+          type: string
+          example: "ProductGroup"
+        '@id':
+          type: string
+          example: "urn:cmp:org:123e4567:brand:456e7890:productgroup:abc12345"
+        name:
+          type: string
+          example: "iPhone 15 Pro"
+        description:
+          type: string
+          example: "Latest iPhone with titanium design"
+        variesBy:
+          type: array
+          items:
+            type: string
+          example: ["color", "storage"]
+        brand:
+          $ref: '#/components/schemas/Brand'
+        hasVariant:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductVariant'
+    ProductVariant:
+      allOf:
+        - $ref: '#/components/schemas/Product'
+        - type: object
+          properties:
+            isVariantOf:
+              type: object
+              properties:
+                '@type':
+                  type: string
+                  example: "ProductGroup"
+                '@id':
+                  type: string
+                  example: "urn:cmp:org:123e4567:brand:456e7890:productgroup:abc12345"
+            additionalProperty:
+              type: array
+              items:
+                $ref: '#/components/schemas/PropertyValue'
+    Brand:
+      type: object
+      properties:
+        '@type':
+          type: string
+          example: "Brand"
+        name:
+          type: string
+          example: "AudioTech"
+        '@id':
+          type: string
+          example: "urn:cmp:org:123e4567:brand:456e7890"
+    Offer:
+      type: object
+      properties:
+        '@type':
+          type: string
+          example: "Offer"
+        price:
+          type: string
+          example: "349.99"
+        priceCurrency:
+          type: string
+          example: "USD"
+        availability:
+          type: string
+          format: uri
+          example: "https://schema.org/InStock"
+        url:
+          type: string
+          format: uri
+          example: "https://example.com/products/wh-1000xm5"
+    AggregateRating:
+      type: object
+      properties:
+        '@type':
+          type: string
+          example: "AggregateRating"
+        ratingValue:
+          type: number
+          example: 4.5
+        reviewCount:
+          type: integer
+          example: 1289
+    PropertyValue:
+      type: object
+      properties:
+        '@type':
+          type: string
+          example: "PropertyValue"
+        name:
+          type: string
+          example: "color"
+        value:
+          type: string
+          example: "Natural Titanium"
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "healthy"
+        timestamp:
+          type: string
+          format: date-time
+        version:
+          type: string
+          example: "0.1.0"
+        services:
+          type: object
+          properties:
+            database:
+              type: string
+              example: "connected"
+            vector_store:
+              type: string
+              example: "connected"
+            cache:
+              type: string
+              example: "connected"
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          type: string
+        type:
+          type: string
+tags:
+  - name: search
+    description: Product search operations
+  - name: products
+    description: Product retrieval operations
+  - name: system
+    description: System operations and health checks

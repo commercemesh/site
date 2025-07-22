@@ -75,7 +75,9 @@ const config: Config = {
       'docusaurus-plugin-redoc',
       {
         id: 'api',
-        spec: 'http://localhost:8000/openapi.yaml',
+        spec: process.env.NODE_ENV === 'production' 
+          ? '/api/openapi.yaml'  // Use static file in production
+          : 'http://localhost:8000/openapi.yaml', // Use live server in development
         route: '/api/',
       },
     ],
