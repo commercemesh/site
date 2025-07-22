@@ -99,7 +99,7 @@ const config: Config = {
       title: 'Commerce Mesh Protocol',
       logo: {
         alt: 'CommerceMesh Logo',
-        src: 'img/logo.svg',
+        src: 'img/commerce_mesh_white.png',
       },
       items: [
         {
@@ -137,16 +137,12 @@ const config: Config = {
           title: 'Community',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/commercemesh',
-            },
-            {
               label: 'Discord',
-              href: 'https://discord.gg/commercemesh',
+              href: 'https://discord.com/channels/1381756773563633786h',
             },
             {
-              label: 'Twitter',
-              href: 'https://twitter.com/commercemesh',
+              label: 'X',
+              href: 'https://x.com/commercemeshorg',
             },
           ],
         },
@@ -164,7 +160,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} CommerceMesh. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} CommerceMesh.`,
     },
     prism: {
       theme: prismThemes.github,

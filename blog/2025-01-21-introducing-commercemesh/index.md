@@ -168,7 +168,7 @@ The Commerce Mesh Protocol is live. The code is open source. The community is fo
 
 ### For Builders
 - ⭐ Star our [GitHub repo](https://github.com/commercemesh/commercemesh)
-- 💬 Join our [Discord](https://discord.gg/commercemesh)
+- 💬 Join our [Discord](https://discord.com/channels/1381756773563633786h)
 - 📚 Read the [documentation](/docs/intro)
 - 🚀 Deploy your first node
 

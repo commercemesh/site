@@ -10,10 +10,12 @@ The Discovery Node is a high-performance product discovery engine that enables A
 ## Key Features
 
 - **Hybrid Vector Search**: Combines semantic understanding with keyword matching
+- **Multiple Vector Backends**: Support for both PGVector and Pinecone
 - **Schema.org Compliance**: All responses use JSON-LD format with standard vocabulary
 - **REST API**: FastAPI-based endpoints with automatic OpenAPI documentation
 - **MCP Server**: Enable AI assistants to search and analyze products
-- **Real-time Ingestion**: Automatically sync from CMP feeds
+- **Flexible Data Ingestion**: Support for local and remote data sources
+- **Real-time Updates**: Automatically sync from configured feeds
 - **Multi-tenant Support**: Handle multiple organizations and brands
 
 ## Architecture
@@ -25,18 +27,22 @@ graph TB
     API[FastAPI Server]
     MCP[MCP Server]
     DB[(PostgreSQL)]
-    VDB[(Pinecone)]
+    VDB[(Vector DB<br/>PGVector/Pinecone)]
     Worker[Celery Worker]
+    Search[Search Engine<br/>Tantivy]
     
     API --> DB
     API --> VDB
+    API --> Search
     MCP --> DB
     MCP --> VDB
+    MCP --> Search
     Worker --> DB
     Worker --> VDB
+    Worker --> Search
     
     subgraph External
-        Feeds[CMP Feeds]
+        Feeds[Data Sources<br/>Local/Remote]
         Client[API Clients]
         AI[AI Assistants]
     end
@@ -51,9 +57,10 @@ graph TB
 ### 1. Prerequisites
 
 - Python 3.10+
-- PostgreSQL
+- PostgreSQL 14+ (with pgvector extension for PGVector backend)
 - Redis
-- Pinecone account
+- OpenAI API key (for embeddings)
+- Optional: Pinecone account (if using Pinecone backend)
 
 ### 2. Installation
 
@@ -68,9 +75,29 @@ pip install -r requirements.txt
 Create a `.env` file:
 
 ```env
+# Database
 DATABASE_URL=postgresql://user:password@localhost:5432/discovery_db
+
+# Vector Storage (choose one)
+VECTOR_STORAGE_BACKEND=pgvector  # or 'pinecone'
+
+# If using Pinecone
 PINECONE_API_KEY=your_api_key
 PINECONE_ENVIRONMENT=your_environment
+
+# Embeddings
+EMBEDDING_API_KEY=your_openai_api_key
+```
+
+Configure data sources in `ingestion.yaml`:
+
+```yaml
+ingestion:
+  - name: "my-products"
+    source_type: "local"
+    registry: "/path/to/brand-registry.json"
+    feed_path: "/path/to/product-feed.json"
+    schedule: "0 */4 * * *"
 ```
 
 ### 4. Run Services
@@ -98,9 +125,11 @@ The API includes:
 - Health check endpoints
 - Full OpenAPI specification
 
-## MCP Integration
+## Configuration Guides
 
-For AI assistants and advanced integrations, see our [MCP Server Integration guide](./mcp-integration).
+- **[Data Ingestion](./data-ingestion)**: Configure data sources and ingestion schedules
+- **[Vector Databases](./vector-databases)**: Choose and optimize your vector storage backend
+- **[MCP Integration](./mcp-integration)**: Enable AI assistants to search products
 
 ## Deployment
 

@@ -362,7 +362,7 @@ The internet succeeded because HTTP was open. Email thrived because SMTP was dec
 
 The Commerce Mesh Protocol is live. Our Discovery Node implementation is ready for production use. Whether you're a brand tired of marketplace fees, a developer building for agentic commerce, or an entrepreneur seeing opportunity in open infrastructure - now is the time to engage.
 
-**Ready to build on CMP?** Star our [GitHub repository](https://github.com/commercemesh) and join our [Discord](https://discord.gg/commercemesh) for early access to the Discovery Node SDK.
+**Ready to build on CMP?** Star our [GitHub repository](https://github.com/commercemesh) and join our [Discord](https://discord.com/channels/1381756773563633786h) for early access to the Discovery Node SDK.
 
 The future of commerce is open, decentralized, and agent-driven. Let's build it together.
 

@@ -67,5 +67,5 @@ CMP is an open-source project. We welcome contributions from anyone working on:
 
 Connect with us:
 - [GitHub](https://github.com/commercemesh/commercemesh)
-- [Discord](https://discord.gg/commercemesh)
+- [Discord](https://discord.com/channels/1381756773563633786h)
 - Email: specs@commercemesh.ai

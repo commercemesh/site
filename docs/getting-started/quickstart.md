@@ -361,6 +361,6 @@ Congratulations! You've successfully integrated with CMP. Next, explore:
 
 ## Need Help?
 
-- Join our [Discord community](https://discord.gg/commercemesh)
+- Join our [Discord community](https://discord.com/channels/1381756773563633786h)
 - Check the [FAQ](/docs/faq)
 - Email us at specs@commercemesh.ai

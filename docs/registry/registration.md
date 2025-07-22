@@ -257,5 +257,5 @@ You can register before your feed is live, but implement it soon after approval.
 ## Need Help?
 
 - Check [Schema Reference](/docs/registry/schema)
-- Join [Discord](https://discord.gg/commercemesh)
+- Join [Discord](https://discord.com/channels/1381756773563633786h)
 - Email specs@commercemesh.ai
