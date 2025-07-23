@@ -122,7 +122,7 @@ We welcome contributions! Please see our contributing guidelines (coming soon).
 
 ## 📄 License
 
-[License information to be added]
+Discovery Node is released under the MIT License. See the [LICENSE](https://github.com/commercemesh/discovery-node/blob/main/LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
