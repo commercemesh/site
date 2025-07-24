@@ -28,7 +28,7 @@ Marketplace fees have skyrocketed. Amazon's total take rate - including advertis
 - **Zero customer relationships**: Marketplaces own the customer data, email, and remarketing rights
 - **Platform dependency**: Delisting means instant death for many businesses
 
-**Software Architect:** The technical implications are equally severe. Developers face:
+The technical implications are equally severe. Developers face:
 
 - **API rate limits** that artificially constrain innovation
 - **Proprietary data formats** requiring custom integrations for each platform
@@ -127,7 +127,7 @@ AI agents can optimize transaction routing based on:
 
 This creates true competition. Instead of Amazon Payments or Shop Pay lock-in, Transaction Nodes compete for every purchase.
 
-**Software Architect:** Here's how a transaction flow works:
+Here's how a transaction flow works:
 
 ```python
 # Simplified transaction flow
