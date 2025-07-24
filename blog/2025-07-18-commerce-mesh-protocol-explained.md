@@ -41,7 +41,6 @@ As AI agents become primary commerce interfaces, these limitations become catast
 
 Current platforms aren't built for agent-to-agent commerce. They're built for human clicking and corporate control. The Commerce Mesh Protocol changes this fundamental assumption.
 
-**[Visual Suggestion 1: Diagram showing current centralized marketplace model vs. CMP's decentralized protocol model]**
 
 ## The CMP Architecture: Four Nodes, Infinite Possibilities
 
@@ -172,7 +171,6 @@ AI agents optimize fulfillment by:
 - Coordinating split shipments
 - Predicting delivery issues
 
-**[Visual Suggestion 2: Flow diagram showing how an AI agent interacts with all four node types to complete a purchase]**
 
 ### Node Interoperability
 
