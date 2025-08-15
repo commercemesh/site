@@ -16,6 +16,8 @@ The internet runs on protocols. Email flows through SMTP. Websites serve via HTT
 
 The Commerce Mesh Protocol (CMP) applies the internet's economic model to commerce. Instead of platforms extracting rent, open protocols enable competition, innovation, and value creation at every layer. This isn't idealistic thinking - it's economic inevitability driven by the same forces that made proprietary networks obsolete.
 
+<!-- truncate -->
+
 ## The Marketplace Tax Problem
 
 ### The True Cost of Commerce Platforms
