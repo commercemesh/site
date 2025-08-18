@@ -86,7 +86,7 @@ Our Discovery Node architecture includes real-time validation:
 
 ### Semantic Understanding Beyond Categories
 
-Traditional product categorization breaks down in the age of **intelligent agents**. While humans navigate hierarchical categories like "Electronics > Audio > Headphones," agents understand semantic relationships between products and use cases.
+Traditional product categorization breaks down in the age of **intelligent agents**. While humans navigate hierarchical categories like "Electronics &gt; Audio &gt; Headphones," agents understand semantic relationships between products and use cases.
 
 An agent tasked with "finding solutions for a quiet office environment" might discover:
 
@@ -147,19 +147,19 @@ This agent-optimized approach enables AI systems to make holistic evaluations th
 
 **Personal shopper** agents and procurement systems require data freshness that traditional e-commerce can't provide. Our Discovery Node architecture maintains data currency through multiple synchronization layers:
 
-**Tier 1: Critical Data (< 5 minute lag)**
+**Tier 1: Critical Data (&lt; 5 minute lag)**
 
 - Inventory levels
 - Pricing changes
 - Shipping availability
 
-**Tier 2: Important Data (< 1 hour lag)**
+**Tier 2: Important Data (&lt; 1 hour lag)**
 
 - Product specifications
 - Availability updates
 - Promotional pricing
 
-**Tier 3: Reference Data (< 24 hour lag)**
+**Tier 3: Reference Data (&lt; 24 hour lag)**
 
 - Product descriptions
 - Images and media
@@ -202,7 +202,7 @@ Our API architecture supports complex queries like:
 const searchQuery = {
   product: "dental impression material",
   specifications: {
-    settingTime: "< 3 minutes",
+    settingTime: "&lt; 3 minutes",
     accuracy: "ISO 4823 Class 1",
     flavor: "mint"
   },
@@ -285,7 +285,7 @@ The economic structure of centralized platforms creates systematic inefficiencie
 **Discovery Node Economics:**
 
 - Product cost: $100
-- Discovery Node operation (<1%): $0.50
+- Discovery Node operation (&lt;1%): $0.50
 - Direct payment processing (2.5%): $2.50
 - Final price to customer: $103
 
@@ -370,8 +370,8 @@ product:
   commercial:
     base_price: 4999.00
     volume_discounts:
-      "5_units": 0.08
-      "10_units": 0.15
+      five_units: 0.08
+      ten_units: 0.15
     financing_available: true
     warranty: "3 years parts and labor"
 
