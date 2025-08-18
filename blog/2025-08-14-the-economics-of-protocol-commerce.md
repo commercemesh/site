@@ -4,7 +4,7 @@ title: The Economics of Protocol Commerce
 authors: shiv
 tags: [commercemesh, protocol, ecommerce, infrastructure]
 description: Discover why open protocol commerce beats marketplace economics. Learn how decentralized infrastructure reduces fees from 30% to 3% while creating more value for all participants.
-image: https://commercemesh.com/images/cmp-social-card.jpg
+image: https://commercemesh.org/images/cmp-social-card.jpg
 keywords: [protocol commerce economics, marketplace fees comparison, decentralized commerce ROI, platform tax alternative, commerce infrastructure costs]
 ---
 

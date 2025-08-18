@@ -4,7 +4,7 @@ title: The Commerce Mesh Protocol Explained
 authors: shiv
 tags: [commercemesh, protocol, ecommerce, infrastructure]
 description: The Commerce Mesh Protocol (CMP) enables agentic commerce through open, decentralized infrastructure. Learn how four modular nodes create infinite possibilities for AI-driven commerce without platform lock-in.
-image: https://commercemesh.com/images/cmp-social-card.jpg
+image: https://commercemesh.org/images/cmp-social-card.jpg
 keywords: [commerce mesh protocol, agentic commerce, decentralized commerce, open commerce protocol, AI commerce, ecommerce infrastructure]
 ---
 

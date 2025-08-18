@@ -4,7 +4,7 @@ title: Introducing the Commerce Mesh Protocol - The Open Coordination Layer for 
 authors: [shiv]
 tags: [announcement, protocol, decentralized, ai-commerce, open-source]
 description: Today we're introducing the Commerce Mesh Protocol (CMP) - an open, decentralized protocol that enables AI agents, brands, and commerce infrastructure to coordinate without intermediaries.
-image: https://commercemesh.com/images/cmp-announcement.jpg
+image: https://commercemesh.org/images/cmp-announcement.jpg
 keywords: [commerce mesh protocol launch, decentralized commerce, open protocol, AI agents, agentic commerce]
 ---
 
