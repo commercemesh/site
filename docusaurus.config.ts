@@ -77,7 +77,7 @@ const config: Config = {
         id: 'api',
         spec: process.env.NODE_ENV === 'production' 
           ? './static/api/openapi.yaml'  // Use static file in production
-          : 'http://localhost:8000/openapi.yaml', // Use live server in development
+          : 'http://api.overway.net/integrations/openapi.yaml', // Use live server in development
         route: '/api/',
       },
     ],
