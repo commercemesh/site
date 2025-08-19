@@ -50,7 +50,7 @@ Consider how a dental practice procurement agent evaluates autoclave equipment:
     "product_category": "dental autoclave",
     "specifications": {
       "chamber_capacity": ">= 18L",
-      "cycle_time": "<= 15 minutes",
+      "cycle_time": "&lt;= 15 minutes",
       "certifications": ["FDA 510k", "CE Mark"]
     },
     "commercial": {
@@ -303,7 +303,7 @@ Infrastructure businesses build moats through technical superiority rather than 
 **CMP Technical Performance Benchmarks:**
 
 - **Query response time:** Average 180ms across network (vs. 2-5 seconds for platform APIs)
-- **Data freshness:** 95% of inventory data < 5 minutes old (vs. 24-48 hour platform delays)
+- **Data freshness:** 95% of inventory data &lt; 5 minutes old (vs. 24-48 hour platform delays)
 - **Network uptime:** 99.97% availability SLA (vs. 99.5% typical platform SLA)
 - **Query success rate:** 94% successful product matches (vs. 67% platform search success)
 
@@ -353,9 +353,9 @@ Market transitions create temporary arbitrage opportunities for early infrastruc
 **Current Market State:**
 
 - **Platform dominance:** 85% of commerce still flows through human-optimized platforms
-- **Agent infrastructure:** <5% of product catalogs optimized for **AI powered shopping**
+- **Agent infrastructure:** &lt;5% of product catalogs optimized for **AI powered shopping**
 - **Cost inefficiencies:** $400B+ in annual platform fees and inefficiencies
-- **Technology adoption:** **Intelligent agents** handle <10% of B2B procurement decisions
+- **Technology adoption:** **Intelligent agents** handle &lt;10% of B2B procurement decisions
 
 **Infrastructure Investment Opportunity:**
 
