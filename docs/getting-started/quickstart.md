@@ -335,13 +335,13 @@ Test your integration using the CMP Discovery API:
 
 ```bash
 # Search for your products
-curl "https://api.commercemesh.com/v1/products?q=your+product"
+curl "https://api.commercemesh.org/v1/products?q=your+product"
 
 # Get a specific product
-curl "https://api.commercemesh.com/v1/products/urn:cmp:product:YOUR-BRAND-ID:SKU123"
+curl "https://api.commercemesh.org/v1/products/urn:cmp:product:YOUR-BRAND-ID:SKU123"
 
 # Send a view event
-curl -X POST "https://api.commercemesh.com/v1/events" \
+curl -X POST "https://api.commercemesh.org/v1/events" \
   -H "Content-Type: application/json" \
   -d '[{
     "event": "view",

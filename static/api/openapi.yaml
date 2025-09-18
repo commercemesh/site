@@ -4,7 +4,7 @@ info:
   description: Discovery Node is a product discovery engine that uses AI to find products that match your search query.
   version: 1.0.0
 servers:
-  - url: https://discovery.commercemesh.com
+  - url: https://discovery.commercemesh.org
     description: Production server
   - url: http://localhost:8000
     description: Local development server
